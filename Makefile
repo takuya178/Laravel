@@ -7,6 +7,7 @@ install:
 	docker compose exec app php artisan storage:link
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
+	@make analyze
 create-project:
 	mkdir -p src
 	docker compose build
@@ -16,6 +17,11 @@ create-project:
 	docker compose exec app php artisan storage:link
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
+	@make analyze
+	cp phpstan.neon src/
+	cp pint.json src/
+	rm -rf phpstan.neon
+	rm -rf pint.json
 build:
 	docker compose build
 up:
@@ -86,3 +92,5 @@ pint:
 	docker compose exec app ./vendor/bin/pint -v
 pint-test:
 	docker compose exec app ./vendor/bin/pint -v --test
+analyze:
+	docker compose exec app composer require --dev nunomaduro/larastan
