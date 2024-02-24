@@ -22,6 +22,10 @@ create-project:
 	cp pint.json src/
 	rm -rf phpstan.neon
 	rm -rf pint.json
+	mkdir .githooks
+	mv pre-commit .githooks/
+	chmod +x .githooks/pre-commit
+	git config --local core.hooksPath .githooks
 build:
 	docker compose build
 up:

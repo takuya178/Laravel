@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ $? -ne 0 ]]; then
+    echo "エラーが出たドン！ 出直してこい雑魚"
+    exit 1
+fi
+
+echo "Running LaraStan..."
+cmd="docker compose exec app ./vendor/bin/phpstan analyse"
+$cmd
+
+if [[ $? -ne 0 ]]; then
+    echo "エラーが出たドン！ 出直してこい雑魚"
+    exit 1
+fi
+
+echo "Running Pint..."
+cmd="docker compose exec app ./vendor/bin/pint"
+$cmd
+
+if [[ $? -ne 0 ]]; then
+    echo "error"
+    exit 1
+fi
