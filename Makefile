@@ -8,8 +8,9 @@ install:
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
 	@make analyze
+# ./src配下が作成されていない場合実行
 create-project:
-	mkdir -p src
+	mkdir -p ./src
 	docker compose build
 	docker compose up -d
 	docker compose exec app composer create-project --prefer-dist laravel/laravel .
@@ -18,10 +19,8 @@ create-project:
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
 	@make analyze
-	cp phpstan.neon src/
-	cp pint.json src/
-	rm -rf phpstan.neon
-	rm -rf pint.json
+	mv phpstan.neon src/
+	mv pint.json src/
 	mkdir .githooks
 	mv pre-commit .githooks/
 	chmod +x .githooks/pre-commit
